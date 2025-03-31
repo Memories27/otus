@@ -16,7 +16,7 @@ CREATE TABLESPACE Purchases;
 Создание ролей
 
 CREATE ROLE Admin;
-CREATE ROLE User;
+CREATE ROLE User1;
 
 Создание схемы данных
 
@@ -30,23 +30,10 @@ CREATE SCHEMA Purchases;
 
 Создание таблиц и распределение их по схемам и табличным пространствам
 
-Таблица Products
-CREATE TABLE Products.Products (
-    product_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    category_id INT,
-    supplier_id INT,
-    manufacturer_id INT,
-    FOREIGN KEY (category_id) REFERENCES Categories.Categories(category_id),
-    FOREIGN KEY (supplier_id) REFERENCES Suppliers.Suppliers(supplier_id),
-    FOREIGN KEY (manufacturer_id) REFERENCES Manufacturers.Manufacturers(manufacturer_id)
-) TABLESPACE Products;
-
 Таблица Categories
 
 CREATE TABLE Categories.Categories (
-    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category_id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT
 ) TABLESPACE Categories;
@@ -54,7 +41,7 @@ CREATE TABLE Categories.Categories (
 Таблица Prices
 
 CREATE TABLE Prices.Prices (
-    price_id INT PRIMARY KEY AUTO_INCREMENT,
+    price_id INT PRIMARY KEY,
     product_id INT,
     price DECIMAL(10, 2) CHECK (price > 0),
     currency VARCHAR(3),
@@ -65,7 +52,7 @@ CREATE TABLE Prices.Prices (
 Таблица Suppliers
 
 CREATE TABLE Suppliers.Suppliers (
-    supplier_id INT PRIMARY KEY AUTO_INCREMENT,
+    supplier_id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     contact_info TEXT
 ) TABLESPACE Suppliers;
@@ -73,7 +60,7 @@ CREATE TABLE Suppliers.Suppliers (
 Таблица Manufacturers
 
 CREATE TABLE Manufacturers.Manufacturers (
-    manufacturer_id INT PRIMARY KEY AUTO_INCREMENT,
+    manufacturer_id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     contact_info TEXT
 ) TABLESPACE Manufacturers;
@@ -81,15 +68,28 @@ CREATE TABLE Manufacturers.Manufacturers (
 Таблица Customers
 
 CREATE TABLE Customers.Customers (
-    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     contact_info TEXT
 ) TABLESPACE Customers;
 
+Таблица Products
+CREATE TABLE Products.Products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    category_id INT,
+    supplier_id INT,
+    manufacturer_id INT,
+    FOREIGN KEY (category_id) REFERENCES Categories.Categories(category_id),
+    FOREIGN KEY (supplier_id) REFERENCES Suppliers.Suppliers(supplier_id),
+    FOREIGN KEY (manufacturer_id) REFERENCES Manufacturers.Manufacturers(manufacturer_id)
+) TABLESPACE Products;
+
 Таблица Purchases
 
 CREATE TABLE Purchases.Purchases (
-    purchase_id INT PRIMARY KEY AUTO_INCREMENT,
+    purchase_id INT PRIMARY KEY,
     customer_id INT,
     product_id INT,
     quantity INT CHECK (quantity > 0),
